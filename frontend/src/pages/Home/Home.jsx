@@ -118,6 +118,103 @@ function Home() {
           </p>
         </div>
       </section>
+      
+      
+      {/* ABOUT KISARA */}
+      <section className="about-kisara" id="tentang">
+        <div className="about-content">
+          <p className="section-label">TENTANG KISARA</p>
+
+          <h2>
+            Setiap Cerita
+            <br />
+            Punya Makna.
+          </h2>
+
+          <p className="about-description">
+            KiSara adalah ruang digital untuk mengenal, menjelajahi,
+            dan melestarikan kekayaan cerita Nusantara. Setiap cerita
+            menyimpan nilai budaya, kebijaksanaan, dan pesan yang
+            layak diwariskan kepada generasi berikutnya.
+          </p>
+
+          <Link to="/catalog" className="about-button">
+            Jelajahi Cerita
+          </Link>
+        </div>
+
+        <div className="about-values">
+          <article className="about-value-card">
+            <span className="about-value-number">01</span>
+            <h3>Warisan Budaya</h3>
+            <p>
+              Mengenal cerita rakyat sebagai bagian dari identitas
+              dan kekayaan budaya Indonesia.
+            </p>
+          </article>
+
+          <article className="about-value-card">
+            <span className="about-value-number">02</span>
+            <h3>Jelajah Nusantara</h3>
+            <p>
+              Menemukan beragam kisah dari berbagai daerah
+              Indonesia dalam satu platform.
+            </p>
+          </article>
+
+          <article className="about-value-card">
+            <span className="about-value-number">03</span>
+            <h3>Cerita untuk Generasi</h3>
+            <p>
+              Menjaga cerita Nusantara agar tetap dikenal
+              dan dinikmati oleh generasi mendatang.
+            </p>
+          </article>
+        </div>
+      </section>
+      
+      
+      {/* FOOTER KISARA */}
+      <footer className="kisara-footer">
+        <div className="footer-main">
+          <div className="footer-brand">
+            <Link to="/" className="footer-logo">
+              KiSara<span>.id</span>
+            </Link>
+
+            <p className="footer-description">
+              Menjelajahi cerita, merawat budaya, dan mewariskan
+              kekayaan kisah Nusantara kepada generasi mendatang.
+            </p>
+          </div>
+
+          <div className="footer-navigation">
+            <h3>Navigasi</h3>
+            <Link to="/">Beranda</Link>
+            <Link to="/catalog">Katalog Cerita</Link>
+            <a href="#wilayah">Jelajahi Wilayah</a>
+            <a href="#tentang">Tentang KiSara</a>
+          </div>
+
+          <div className="footer-contact">
+            <h3>Jelajahi KiSara</h3>
+            <p>
+              Temukan cerita rakyat, legenda, dan kekayaan budaya
+              dari berbagai penjuru Indonesia.
+            </p>
+            <Link to="/catalog" className="footer-cta">
+              Mulai Membaca <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p>© {new Date().getFullYear()} KiSara.id</p>
+          <p>Merawat cerita, menjaga warisan Nusantara.</p>
+        </div>
+      </footer>
+      
+      
     </main>
   );
 }

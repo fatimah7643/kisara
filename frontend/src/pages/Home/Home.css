@@ -286,3 +286,416 @@
     padding: 20px;
   }
 }
+
+
+/* ABOUT KISARA */
+.about-kisara {
+  padding: 88px 32px;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  align-items: center;
+  gap: 64px;
+  background-color: #123047;
+  color: #fffdf7;
+}
+
+.about-content {
+  width: 100%;
+  max-width: 480px;
+  justify-self: end;
+}
+
+.about-content .section-label {
+  color: #f29a56;
+}
+
+.about-content h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 4.5vw, 54px);
+  line-height: 1.12;
+}
+
+.about-description {
+  margin: 24px 0;
+  color: #e0e6e8;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.about-button {
+  display: inline-block;
+  padding: 13px 22px;
+  border-radius: 10px;
+  background-color: #36ada3;
+  color: #123047;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.about-button:hover {
+  background-color: #65c9bf;
+  transform: translateY(-2px);
+}
+
+.about-values {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  max-width: 540px;
+}
+
+.about-value-card {
+  padding: 22px 24px;
+  border: 1px solid rgba(255, 253, 247, 0.2);
+  border-radius: 16px;
+  background-color: rgba(255, 253, 247, 0.06);
+}
+
+.about-value-number {
+  display: block;
+  margin-bottom: 12px;
+  color: #f29a56;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.about-value-card h3 {
+  margin: 0 0 8px;
+  color: #fffdf7;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+}
+
+.about-value-card p {
+  margin: 0;
+  color: #e0e6e8;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* RESPONSIVE ABOUT */
+@media (max-width: 900px) {
+  .about-kisara {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 64px 24px;
+  }
+
+  .about-content {
+    max-width: 640px;
+    justify-self: start;
+  }
+
+  .about-values {
+    max-width: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-kisara {
+    padding: 52px 20px;
+  }
+
+  .about-content h2 {
+    font-size: 38px;
+  }
+
+  .about-value-card {
+    padding: 20px;
+  }
+}
+
+
+/* FOOTER KISARA */
+.kisara-footer {
+  padding: 56px 32px 24px;
+  background-color: #0c2335;
+  color: #fffdf7;
+}
+
+.footer-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 42px;
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr 1fr;
+  gap: 56px;
+}
+
+.footer-brand {
+  max-width: 360px;
+}
+
+.footer-logo {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: #fffdf7;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footer-logo span {
+  color: #36ada3;
+}
+
+.footer-description,
+.footer-contact p {
+  margin: 0;
+  color: #c5d0d7;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.footer-navigation,
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-navigation h3,
+.footer-contact h3 {
+  margin: 4px 0 18px;
+  color: #fffdf7;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.footer-navigation a {
+  margin-bottom: 13px;
+  color: #c5d0d7;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-navigation a:hover {
+  color: #36ada3;
+}
+
+.footer-contact p {
+  margin-bottom: 18px;
+}
+
+.footer-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #36ada3;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-cta:hover {
+  color: #80ded5;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 253, 247, 0.16);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: #aebdc7;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* FOOTER RESPONSIVE */
+@media (max-width: 900px) {
+  .footer-main {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 600px) {
+  .kisara-footer {
+    padding: 44px 20px 22px;
+  }
+
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-bottom: 32px;
+  }
+
+  .footer-brand {
+    grid-column: auto;
+  }
+
+  .footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+
+/* HOME RESPONSIVE POLISH */
+
+/* Mencegah elemen melebar keluar layar */
+.home {
+  width: 100%;
+  overflow-x: clip;
+}
+
+.home img {
+  max-width: 100%;
+}
+
+/* TABLET */
+@media (min-width: 769px) and (max-width: 1000px) {
+  .hero {
+    gap: 32px;
+    padding-right: 28px;
+    padding-left: 28px;
+  }
+
+  .hero-visual {
+    width: 300px;
+    min-width: 260px;
+  }
+
+  .hero-cover {
+    width: 240px;
+    height: 340px;
+  }
+
+  .story-grid {
+    gap: 18px;
+  }
+
+  .story-card-cover {
+    height: 230px;
+  }
+
+  .story-card-cover-title {
+    font-size: 26px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .hero {
+    gap: 40px;
+    padding: 48px 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 9vw, 44px);
+    overflow-wrap: break-word;
+  }
+
+  .hero-description {
+    margin: 20px 0 24px;
+    font-size: 15px;
+  }
+
+  .hero-visual {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero-cover {
+    width: min(240px, 80%);
+    height: 310px;
+    padding: 26px;
+  }
+
+  .hero-cover strong {
+    font-size: 34px;
+  }
+
+  .featured-stories {
+    padding: 48px 20px;
+  }
+
+  .section-heading h2,
+  .region-heading h2 {
+    font-size: clamp(28px, 7vw, 34px);
+  }
+
+  .story-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .story-card-cover {
+    height: 240px;
+  }
+
+  .explore-region {
+    padding: 48px 20px 60px;
+  }
+
+  .region-description {
+    font-size: 15px;
+  }
+
+  .region-content {
+    min-width: 0;
+    padding: 20px 16px;
+  }
+
+  .about-kisara {
+    padding: 48px 20px;
+    gap: 30px;
+  }
+
+  .about-description {
+    font-size: 15px;
+  }
+
+  .about-value-card h3 {
+    font-size: 20px;
+  }
+
+  .about-value-card p {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* VERY SMALL MOBILE */
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero-cover {
+    height: 280px;
+  }
+
+  .hero-cover strong {
+    font-size: 30px;
+  }
+
+  .story-card-content {
+    padding: 18px;
+  }
+
+  .story-card-content h3 {
+    font-size: 21px;
+  }
+}
