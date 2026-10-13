@@ -1,0 +1,91 @@
+.story-card {
+  overflow: hidden;
+
+  background-color: #fffdf7;
+  border: 1px solid #e8e2d5;
+  border-radius: 18px;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.story-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(18, 48, 71, 0.1);
+}
+
+.story-card-cover {
+  height: 260px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background-color: #126b6b;
+  color: #fffdf7;
+}
+
+.story-card-category {
+  align-self: flex-start;
+
+  padding: 6px 10px;
+
+  background-color: #e87525;
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.story-card-cover-title {
+  max-width: 220px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.story-card-content {
+  padding: 22px;
+}
+
+.story-card-region {
+  margin: 0 0 8px;
+
+  color: #e87525;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.story-card-content h3 {
+  margin: 0 0 10px;
+
+  color: #123047;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+}
+
+.story-card-description {
+  margin: 0 0 18px;
+
+  color: #77736a;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.story-card-link {
+  color: #126b6b;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.story-card-link:hover {
+  color: #e87525;
+}

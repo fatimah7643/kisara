@@ -1,0 +1,288 @@
+
+/* =========================
+   HOME
+========================= */
+
+.home {
+  min-height: calc(100vh - 78px);
+  background-color: #f7f3e8;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  max-width: 1200px;
+  min-height: calc(100vh - 78px);
+  margin: 0 auto;
+  padding: 80px 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 64px;
+}
+
+.hero-content {
+  max-width: 620px;
+}
+
+.hero-label {
+  margin-bottom: 18px;
+  color: #e87525;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  margin: 0;
+  color: #123047;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1.05;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.hero-description {
+  max-width: 540px;
+  margin: 28px 0;
+  color: #77736a;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.hero-button {
+  display: inline-block;
+  padding: 14px 24px;
+
+  background-color: #126b6b;
+  color: #fffdf7;
+
+  border-radius: 10px;
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.hero-button:hover {
+  background-color: #0e5757;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   HERO VISUAL
+========================= */
+
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 360px;
+  min-width: 300px;
+}
+
+.hero-cover {
+  width: 280px;
+  height: 380px;
+  padding: 32px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background-color: #126b6b;
+  color: #fffdf7;
+
+  border-radius: 24px;
+  box-shadow: 20px 20px 0 #e87525;
+}
+
+.hero-cover span {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.hero-cover strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 38px;
+  line-height: 1.1;
+}
+
+/* =========================
+   FEATURED STORIES
+========================= */
+
+.featured-stories {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 32px;
+  background-color: #f7f3e8;
+}
+
+.section-heading {
+  margin-bottom: 36px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.section-label {
+  margin: 0 0 10px;
+  color: #e87525;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.section-heading h2,
+.region-heading h2 {
+  margin: 0;
+  color: #123047;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 40px;
+  line-height: 1.15;
+}
+
+.section-link {
+  color: #126b6b;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+.section-link:hover {
+  color: #e87525;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* =========================
+   EXPLORE BY REGION
+========================= */
+
+.explore-region {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 32px 96px;
+  background-color: #f7f3e8;
+}
+
+.region-heading {
+  max-width: 760px;
+  margin-bottom: 32px;
+}
+
+.region-heading h2 {
+  max-width: 700px;
+}
+
+.region-description {
+  max-width: 580px;
+  margin: 18px 0 0;
+  color: #77736a;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* Wadah untuk data wilayah dari API */
+
+.region-content {
+  min-height: 160px;
+  padding: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #fffdf7;
+  border: 1px dashed #c9c1b0;
+  border-radius: 18px;
+}
+
+.region-placeholder {
+  margin: 0;
+  color: #77736a;
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+  .story-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding: 56px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero h1 {
+    font-size: 44px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .hero-visual {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero-cover {
+    width: 240px;
+    height: 320px;
+  }
+
+  .section-heading h2,
+  .region-heading h2 {
+    font-size: 32px;
+  }
+
+  .explore-region {
+    padding: 56px 20px 72px;
+  }
+}
+
+@media (max-width: 600px) {
+  .featured-stories {
+    padding: 56px 20px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .story-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .region-content {
+    min-height: 140px;
+    padding: 20px;
+  }
+}
