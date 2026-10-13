@@ -1,8 +1,11 @@
+
 .story-card {
+  min-width: 0;
+  height: 100%;
   overflow: hidden;
 
-  background-color: #fffdf7;
-  border: 1px solid #e8e2d5;
+  background-color: #F7F3E8;
+  border: 1px solid rgba(18, 48, 71, 0.12);
   border-radius: 18px;
 
   transition:
@@ -23,8 +26,8 @@
   flex-direction: column;
   justify-content: space-between;
 
-  background-color: #126b6b;
-  color: #fffdf7;
+  background-color: #147572;
+  color: #F7F3E8;
 }
 
 .story-card-category {
@@ -32,7 +35,8 @@
 
   padding: 6px 10px;
 
-  background-color: #e87525;
+  background-color: #F47721;
+  color: #FFFFFF;
   border-radius: 20px;
 
   font-size: 12px;
@@ -50,12 +54,13 @@
 
 .story-card-content {
   padding: 22px;
+  overflow-wrap: anywhere;
 }
 
 .story-card-region {
   margin: 0 0 8px;
 
-  color: #e87525;
+  color: #F47721;
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
@@ -73,39 +78,44 @@
 .story-card-description {
   margin: 0 0 18px;
 
-  color: #77736a;
+  color: #52616A;
   font-size: 14px;
   line-height: 1.6;
-}
-
-.story-card-link {
-  color: #126b6b;
-  text-decoration: none;
-
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.story-card-link:hover {
-  color: #e87525;
-}
-
-
-/* STORY CARD RESPONSIVE POLISH */
-.story-card {
-  min-width: 0;
-  height: 100%;
-}
-
-.story-card-content {
-  overflow-wrap: anywhere;
-}
-
-.story-card-description {
   overflow-wrap: break-word;
 }
 
 .story-card-link {
   display: inline-block;
   padding: 4px 0;
+
+  color: #147572;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+.story-card-link:hover {
+  color: #105F5D;
+}
+
+/* STORY CARD RESPONSIVE POLISH */
+@media (max-width: 600px) {
+  .story-card-cover {
+    height: 220px;
+    padding: 16px;
+  }
+
+  .story-card-cover-title {
+    font-size: 26px;
+  }
+
+  .story-card-content {
+    padding: 18px;
+  }
+
+  .story-card-content h3 {
+    font-size: 21px;
+  }
 }

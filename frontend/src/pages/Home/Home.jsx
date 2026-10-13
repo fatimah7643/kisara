@@ -1,8 +1,6 @@
-
 import { Link } from "react-router-dom";
-
 import StoryCard from "../../components/StoryCard/StoryCard";
-
+import heroImage from "../../assets/kisara-hero.png";
 import "./Home.css";
 
 function Home() {
@@ -33,6 +31,11 @@ function Home() {
 
         {/* Visual cover yang sudah ada */}
         <div className="hero-visual">
+            <img
+              src={heroImage}
+              alt="Ilustrasi lanskap Nusantara"
+              className="hero-image"
+            />
           <div className="hero-cover">
             <span>KiSara.id</span>
 
@@ -213,7 +216,6 @@ function Home() {
           <p>Merawat cerita, menjaga warisan Nusantara.</p>
         </div>
       </footer>
-      
       
     </main>
   );
