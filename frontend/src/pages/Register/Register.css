@@ -1,0 +1,69 @@
+/* =========================
+   REGISTER PAGE
+========================= */
+
+.register-page {
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.register-card {
+  max-width: 500px;
+}
+
+.register-card .auth-logo {
+  margin-bottom: 28px;
+}
+
+.register-card .auth-description {
+  margin-bottom: 22px;
+}
+
+.register-card .auth-form {
+  gap: 8px;
+}
+
+.register-card .auth-form label {
+  margin-top: 6px;
+}
+
+.register-card .auth-submit {
+  margin-top: 16px;
+}
+
+/* =========================
+   REGISTER MESSAGE
+========================= */
+
+.register-message {
+  padding: 11px 13px;
+  border-radius: 8px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.register-message.error {
+  background-color: #FFF0EB;
+  color: #A33B22;
+  border: 1px solid rgba(163, 59, 34, 0.18);
+}
+
+.register-message.success {
+  background-color: #E8F4EF;
+  color: #105F5D;
+  border: 1px solid rgba(20, 117, 114, 0.2);
+}
+
+/* =========================
+   RESPONSIVE: MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .register-page {
+    padding: 24px 16px 40px;
+  }
+
+  .register-card {
+    padding: 28px 22px;
+  }
+}

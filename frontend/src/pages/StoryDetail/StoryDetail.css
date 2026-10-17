@@ -1,0 +1,243 @@
+.story-detail-page {
+  min-height: 70vh;
+  padding: 36px 24px 76px;
+  background: #F7F3E8;
+  color: #123047;
+}
+
+.story-detail-container {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.story-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 42px;
+  color: #52616A;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.story-breadcrumb a {
+  color: #147572;
+  text-decoration: none;
+}
+
+.story-breadcrumb a:hover {
+  color: #F47721;
+}
+
+.story-detail-header {
+  padding: 42px 36px;
+  border-radius: 22px;
+  background:
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(20, 117, 114, 0.12),
+      transparent 30%
+    ),
+    #F7F3E8;
+  text-align: center;
+}
+
+.story-detail-category {
+  display: inline-block;
+  padding: 7px 13px;
+  border-radius: 20px;
+  background: #F47721;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.story-detail-region {
+  margin: 22px 0 12px;
+  color: #147572;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.story-detail-header h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 6vw, 54px);
+  line-height: 1.15;
+}
+
+.story-detail-introduction {
+  max-width: 570px;
+  margin: 18px auto 0;
+  color: #52616A;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.story-detail-divider {
+  width: 64px;
+  height: 4px;
+  margin: 30px auto 0;
+  border-radius: 4px;
+  background: #F47721;
+}
+
+.story-reading {
+  max-width: 720px;
+  margin: 48px auto 0;
+}
+
+.story-reading > p {
+  margin: 0 0 24px;
+  color: #393F43;
+  font-size: 17px;
+  line-height: 2;
+  text-align: left;
+}
+
+.story-moral {
+  margin-top: 42px;
+  padding: 26px 28px;
+  border-left: 4px solid #147572;
+  border-radius: 0 14px 14px 0;
+  background: rgba(20, 117, 114, 0.08);
+}
+
+.story-moral-label {
+  color: #147572;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.story-moral p {
+  margin: 12px 0 0;
+  color: #123047;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+.story-detail-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 42px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(18, 48, 71, 0.12);
+}
+
+.story-back-link,
+.story-home-link {
+  display: inline-block;
+  padding: 12px 17px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.story-back-link {
+  background: #147572;
+  color: #FFFFFF;
+}
+
+.story-back-link:hover {
+  background: #105F5D;
+}
+
+.story-home-link {
+  border: 1px solid rgba(18, 48, 71, 0.2);
+  color: #123047;
+}
+
+.story-home-link:hover {
+  background: rgba(18, 48, 71, 0.06);
+}
+
+.story-detail-note {
+  margin: 28px 0 0;
+  color: #52616A;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.story-not-found {
+  max-width: 550px;
+  margin: 70px auto;
+  text-align: center;
+}
+
+.story-not-found > span {
+  font-size: 48px;
+}
+
+.story-not-found h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+}
+
+.story-not-found p {
+  margin-bottom: 28px;
+  color: #52616A;
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .story-detail-page {
+    padding: 24px 18px 52px;
+  }
+
+  .story-breadcrumb {
+    margin-bottom: 24px;
+    gap: 7px;
+  }
+
+  .story-detail-header {
+    padding: 32px 20px;
+    border-radius: 16px;
+  }
+
+  .story-detail-introduction {
+    font-size: 14px;
+  }
+
+  .story-reading {
+    margin-top: 32px;
+  }
+
+  .story-reading > p {
+    font-size: 16px;
+    line-height: 1.9;
+  }
+
+  .story-moral {
+    padding: 22px 20px;
+  }
+
+  .story-moral p {
+    font-size: 18px;
+  }
+
+  .story-detail-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .story-detail-footer a {
+    text-align: center;
+  }
+
+  .story-not-found {
+    margin: 48px auto;
+  }
+
+  .story-not-found h1 {
+    font-size: 28px;
+  }
+}

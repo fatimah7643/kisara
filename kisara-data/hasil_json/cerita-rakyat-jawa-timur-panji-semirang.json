@@ -1,0 +1,55 @@
+{
+  "title": "Cerita Rakyat Jawa Timur Panji Semirang",
+  "origin": "",
+  "synopsis": "",
+  "chapters": [
+    {
+      "chapter_number": 1,
+      "title": "Chapter 1",
+      "content": "Dahulu kala, di sebuah kerajaan di Jawa Timur, hiduplah seorang putri bernama Sekartaji. Ia merupakan putri yang cantik dan memiliki hati yang baik. Sekartaji telah dijodohkan dengan Raden Panji Inu Kertapati. Keduanya saling mencintai. Namun, perjalanan hidup mereka tidak selalu berjalan dengan mudah.",
+      "is_locked": false
+    },
+    {
+      "chapter_number": 2,
+      "title": "Chapter 2",
+      "content": "Pada suatu ketika, terjadi persoalan di lingkungan kerajaan. Sekartaji merasa sedih dan kecewa karena keadaan yang terjadi. Ia kemudian memilih meninggalkan istana. Sekartaji tidak ingin hidup dalam keadaan yang membuatnya terus menderita. Ia menyamar agar identitasnya tidak diketahui.",
+      "is_locked": false
+    },
+    {
+      "chapter_number": 3,
+      "title": "Chapter 3",
+      "content": "Sekartaji kemudian menyamar sebagai seorang laki-laki. Ia menggunakan nama Panji Semirang. Dengan penyamaran tersebut, ia dapat melakukan perjalanan tanpa dikenali. Ia kemudian mengumpulkan orang-orang dan membangun kekuatan sendiri. Banyak orang menghormatinya karena keberanian dan kepemimpinannya.",
+      "is_locked": false
+    },
+    {
+      "chapter_number": 4,
+      "title": "Chapter 4",
+      "content": "Sementara itu, Raden Panji Inu Kertapati merasa kehilangan Sekartaji. Ia kemudian mencari kekasihnya. Ia melakukan perjalanan dari satu wilayah ke wilayah lain. Namun, ia tidak mengetahui bahwa Panji Semirang sebenarnya adalah Sekartaji yang sedang menyamar.",
+      "is_locked": false
+    },
+    {
+      "chapter_number": 5,
+      "title": "Chapter 5",
+      "content": "Pada akhirnya, Panji Inu bertemu dengan Panji Semirang. Keduanya tidak langsung mengetahui identitas masing-masing. Panji Semirang menunjukkan keberanian dan kemampuan memimpin. Panji Inu merasa bahwa sosok tersebut memiliki sesuatu yang sangat dikenalnya.",
+      "is_locked": false
+    },
+    {
+      "chapter_number": 6,
+      "title": "Chapter 6",
+      "content": "Setelah melalui berbagai kejadian, akhirnya penyamaran Panji Semirang terbongkar. Panji Inu mengetahui bahwa Panji Semirang adalah Sekartaji. Ia sangat terkejut sekaligus bahagia. Sekartaji kemudian menjelaskan alasan dirinya meninggalkan istana dan menyamar. Panji Inu memahami keadaan tersebut.",
+      "is_locked": true
+    },
+    {
+      "chapter_number": 7,
+      "title": "Chapter 7",
+      "content": "Setelah semua masalah selesai, Sekartaji dan Panji Inu kembali bersama. Hubungan mereka menjadi semakin kuat. Sekartaji tidak lagi hanya dikenal sebagai seorang putri yang cantik. Ia juga dikenang sebagai perempuan yang berani, mandiri, dan mampu memimpin. Kisah Panji Semirang menjadi bagian dari tradisi cerita Panji yang berkembang luas di Jawa dan Nusantara.",
+      "is_locked": true
+    },
+    {
+      "chapter_number": 8,
+      "title": "Chapter 8",
+      "content": "Cerita Panji Semirang mengajarkan bahwa keberanian dan keteguhan hati dapat membantu seseorang menghadapi keadaan yang sulit. Cerita ini juga menunjukkan bahwa perempuan memiliki kemampuan untuk menjadi pemimpin dan menentukan jalan hidupnya sendiri.",
+      "is_locked": true
+    }
+  ]
+}

@@ -1,0 +1,402 @@
+[
+  {
+    "no": 1,
+    "title": "Asal Mula Putri Tujuh",
+    "jumlah_chapter": 11,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "asal-mula-putri-tujuh.json"
+  },
+  {
+    "no": 2,
+    "title": "asal usul danau toba",
+    "jumlah_chapter": 16,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "asal-usul-danau-toba.json"
+  },
+  {
+    "no": 3,
+    "title": "Asal Usul Gerhana Matahari dan Bulan",
+    "jumlah_chapter": 15,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "asal-usul-gerhana-matahari-dan-bulan.json"
+  },
+  {
+    "no": 4,
+    "title": "Asal Usul Keturunan Bulungan",
+    "jumlah_chapter": 12,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "asal-usul-keturunan-bulungan.json"
+  },
+  {
+    "no": 5,
+    "title": "Asmat Suku Titisan Dewa di Bumi Papua",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "asmat-suku-titisan-dewa-di-bumi-papua.json"
+  },
+  {
+    "no": 6,
+    "title": "BETE DOU",
+    "jumlah_chapter": 13,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "bete-dou.json"
+  },
+  {
+    "no": 7,
+    "title": "Cerita Rakyat Aceh Mentiko Betuah",
+    "jumlah_chapter": 10,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-aceh-mentiko-betuah.json"
+  },
+  {
+    "no": 8,
+    "title": "Cerita Rakyat Aceh Putri Pukes",
+    "jumlah_chapter": 8,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-aceh-putri-pukes.json"
+  },
+  {
+    "no": 9,
+    "title": "Cerita Rakyat Aceh Si Kepar",
+    "jumlah_chapter": 8,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-aceh-si-kepar.json"
+  },
+  {
+    "no": 10,
+    "title": "Cerita Rakyat BengkuluPutri Gading Cempaka",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-bengkuluputri-gading-cempaka.json"
+  },
+  {
+    "no": 11,
+    "title": "Cerita Rakyat Jambi Putri Pinang Masak",
+    "jumlah_chapter": 8,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-jambi-putri-pinang-masak.json"
+  },
+  {
+    "no": 12,
+    "title": "Cerita Rakyat Jawa aji saka",
+    "jumlah_chapter": 14,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-jawa-aji-saka.json"
+  },
+  {
+    "no": 13,
+    "title": "Cerita Rakyat Jawa Barat Nyi Mas Belimbing",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-jawa-barat-nyi-mas-belimbing.json"
+  },
+  {
+    "no": 14,
+    "title": "Cerita Rakyat Jawa Barat Situ Bagendit",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-jawa-barat-situ-bagendit.json"
+  },
+  {
+    "no": 15,
+    "title": "Cerita Rakyat Jawa Timur Ande Ande Lumut",
+    "jumlah_chapter": 8,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-jawa-timur-ande-ande-lumut.json"
+  },
+  {
+    "no": 16,
+    "title": "Cerita Rakyat Jawa Timur Cindelaras",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-jawa-timur-cindelaras.json"
+  },
+  {
+    "no": 17,
+    "title": "Cerita Rakyat Jawa Timur Malang Yuda",
+    "jumlah_chapter": 6,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-jawa-timur-malang-yuda.json"
+  },
+  {
+    "no": 18,
+    "title": "Cerita Rakyat Jawa Timur Panji Semirang",
+    "jumlah_chapter": 8,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-jawa-timur-panji-semirang.json"
+  },
+  {
+    "no": 19,
+    "title": "Cerita Rakyat Kalimantan Barat Asal Usul Bukit Kelam",
+    "jumlah_chapter": 7,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-barat-asal-usul-bukit-kelam.json"
+  },
+  {
+    "no": 20,
+    "title": "Cerita Rakyat Kalimantan Barat Legenda Batu Menangis",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-barat-legenda-batu-menangis.json"
+  },
+  {
+    "no": 21,
+    "title": "Cerita Rakyat Kalimantan Barat Legenda Sungai Landak",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-barat-legenda-sungai-landak.json"
+  },
+  {
+    "no": 22,
+    "title": "Cerita Rakyat Kalimantan Selatan Lambung Mangkurat",
+    "jumlah_chapter": 10,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-selatan-lambung-mangkurat.json"
+  },
+  {
+    "no": 23,
+    "title": "Cerita Rakyat Kalimantan Selatan Putri Junjung Buih",
+    "jumlah_chapter": 12,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-selatan-putri-junjung-buih.json"
+  },
+  {
+    "no": 24,
+    "title": "Cerita Rakyat Kalimantan Selatan Si Angui",
+    "jumlah_chapter": 12,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-selatan-si-angui.json"
+  },
+  {
+    "no": 25,
+    "title": "Cerita Rakyat Kalimantan Tengah Nyai Undang",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-tengah-nyai-undang.json"
+  },
+  {
+    "no": 26,
+    "title": "Cerita Rakyat Kalimantan Tengah Tambun dan Bungai",
+    "jumlah_chapter": 10,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-tengah-tambun-dan-bungai.json"
+  },
+  {
+    "no": 27,
+    "title": "Cerita Rakyat Kalimantan Tengah Tatum",
+    "jumlah_chapter": 8,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-tengah-tatum.json"
+  },
+  {
+    "no": 28,
+    "title": "Cerita Rakyat Kalimantan Timur Asal Usul Sungai Mahakam",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-timur-asal-usul-sungai-mahakam.json"
+  },
+  {
+    "no": 29,
+    "title": "Cerita Rakyat Kalimantan Timur Kisah Pesut Mahakam",
+    "jumlah_chapter": 14,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-timur-kisah-pesut-mahakam.json"
+  },
+  {
+    "no": 30,
+    "title": "Cerita Rakyat Kalimantan Timur Putri Petung",
+    "jumlah_chapter": 10,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-kalimantan-timur-putri-petung.json"
+  },
+  {
+    "no": 31,
+    "title": "Cerita Rakyat keong mas",
+    "jumlah_chapter": 7,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-keong-mas.json"
+  },
+  {
+    "no": 32,
+    "title": "Cerita Rakyat maling kundang",
+    "jumlah_chapter": 14,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-maling-kundang.json"
+  },
+  {
+    "no": 33,
+    "title": "Cerita Rakyat Papua",
+    "jumlah_chapter": 24,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-papua.json"
+  },
+  {
+    "no": 34,
+    "title": "Cerita Rakyat roro jonggrang",
+    "jumlah_chapter": 8,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-roro-jonggrang.json"
+  },
+  {
+    "no": 35,
+    "title": "Cerita Rakyat Sumatera Selatan Serunting Sakti",
+    "jumlah_chapter": 10,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-sumatera-selatan-serunting-sakti.json"
+  },
+  {
+    "no": 36,
+    "title": "Cerita Rakyat Sunda Ciung Wanara",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "cerita-rakyat-sunda-ciung-wanara.json"
+  },
+  {
+    "no": 37,
+    "title": "Kebaikan Si Pahit Lidah",
+    "jumlah_chapter": 11,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "kebaikan-si-pahit-lidah.json"
+  },
+  {
+    "no": 38,
+    "title": "Kisah Lutung Kasarung dalam Mencari Cinta Sejati",
+    "jumlah_chapter": 21,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "kisah-lutung-kasarung-dalam-mencari-cinta-sejati.json"
+  },
+  {
+    "no": 39,
+    "title": "LA BAUTO",
+    "jumlah_chapter": 11,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "la-bauto.json"
+  },
+  {
+    "no": 40,
+    "title": "Legenda Aceh Gunung Seulawah",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "legenda-aceh-gunung-seulawah.json"
+  },
+  {
+    "no": 41,
+    "title": "Legenda Asal Usul Banyuwangi",
+    "jumlah_chapter": 7,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "legenda-asal-usul-banyuwangi.json"
+  },
+  {
+    "no": 42,
+    "title": "Legenda Bukit Siguntang",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "legenda-bukit-siguntang.json"
+  },
+  {
+    "no": 43,
+    "title": "Legenda Jawa Barat Talaga Bodas",
+    "jumlah_chapter": 9,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "legenda-jawa-barat-talaga-bodas.json"
+  },
+  {
+    "no": 44,
+    "title": "Legenda Jawa Timur Joko Dolog",
+    "jumlah_chapter": 8,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "legenda-jawa-timur-joko-dolog.json"
+  },
+  {
+    "no": 45,
+    "title": "Legenda Kebo Iwa dan Asal Usul Gunung Batur",
+    "jumlah_chapter": 15,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "legenda-kebo-iwa-dan-asal-usul-gunung-batur.json"
+  },
+  {
+    "no": 46,
+    "title": "Legenda Mandin Tangkaramin",
+    "jumlah_chapter": 14,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "legenda-mandin-tangkaramin.json"
+  },
+  {
+    "no": 47,
+    "title": "legenda naga lipan",
+    "jumlah_chapter": 10,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "legenda-naga-lipan.json"
+  },
+  {
+    "no": 48,
+    "title": "Legenda Sangkuriang dan Tangkuban Perahu",
+    "jumlah_chapter": 8,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "legenda-sangkuriang-dan-tangkuban-perahu.json"
+  },
+  {
+    "no": 49,
+    "title": "putri kemarau",
+    "jumlah_chapter": 15,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "putri-kemarau.json"
+  },
+  {
+    "no": 50,
+    "title": "Sepasang Naga dan Terbentuknya Telaga Sarangan",
+    "jumlah_chapter": 15,
+    "status": "OK",
+    "detail": "OK",
+    "file_json": "sepasang-naga-dan-terbentuknya-telaga-sarangan.json"
+  }
+]
