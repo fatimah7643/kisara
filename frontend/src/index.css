@@ -3,6 +3,16 @@
 /* Pemanggilan Tailwind versi 4 */
 @import "tailwindcss";
 
+@theme {
+  --color-kisara: #A34321;
+  --color-kisara-dark: #8A3619;
+  --color-kisara-light: #B55530;
+  --color-kisara-soft: #F3D2A4;
+  --color-cream: #FCFAF6;
+  --color-sand: #F4F1EA;
+  --color-line: #E8E3D5;
+}
+
 @layer base {
   body {
     background-color: #FCFAF6;

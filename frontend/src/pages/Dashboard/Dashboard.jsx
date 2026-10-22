@@ -1,244 +1,397 @@
-import { Link } from 'react-router-dom';
+import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { getRegions, getStory } from "../../services/storiesService";
+import { DAILY_CHECKIN_REWARD, dailyCheckIn, dateKey, toggleBookmark } from "../../services/userService";
+import StoryCard from "../../components/StoryCard/StoryCard";
+import CoverArt from "../../components/CoverArt/CoverArt";
+
+const TABS = [
+  { id: "bookmark", label: "Bookmark" },
+  { id: "reading", label: "Sedang Dibaca" },
+  { id: "history", label: "Riwayat Bacaan" },
+  { id: "points", label: "Riwayat Poin" },
+];
+
+const ROLE_LABEL = { reader: "Pembaca", creator: "Kreator", admin: "Admin" };
+
+const TX_LABEL = {
+  welcome_bonus: "Bonus pendaftaran",
+  daily_checkin: "Check-in harian",
+  reading_reward: "Reward membaca",
+  unlock_chapter: "Buka bab premium",
+  topup: "Top-up koin",
+};
+
+const regions = getRegions();
+
+const formatDate = (iso) =>
+  new Date(iso).toLocaleString("id-ID", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+// Catatan transaksi menyimpan slug cerita setelah " · " — tampilkan judulnya.
+function txNote(note) {
+  const [text, slug] = (note ?? "").split(" · ");
+  const title = slug ? getStory(slug)?.title : null;
+  return title ? `${text} · ${title}` : text;
+}
+
+function Empty({ text, to, cta }) {
+  return (
+    <div className="rounded-xl border border-dashed border-line bg-white px-6 py-12 text-center">
+      <p className="mb-4 text-gray-600">{text}</p>
+      {to && (
+        <Link to={to} className="rounded-lg bg-kisara px-5 py-2.5 text-sm font-bold text-white hover:bg-kisara-dark">
+          {cta}
+        </Link>
+      )}
+    </div>
+  );
+}
 
 export default function Dashboard() {
+  const { profile } = useAuth();
+  if (!profile) return null;
+  return <DashboardView profile={profile} />;
+}
+
+function DashboardView({ profile }) {
+  const { user, refreshProfile } = useAuth();
+  const [tab, setTab] = useState("bookmark");
+  const [region, setRegion] = useState("");
+  const [notice, setNotice] = useState("");
+  const [error, setError] = useState("");
+
+  const today = dateKey();
+  const checkedIn = profile.lastCheckIn === today;
+  // Streak putus jika kemarin dan hari ini sama-sama belum check-in.
+  const streakAlive = checkedIn || profile.lastCheckIn === dateKey(-1);
+  const streak = streakAlive ? profile.streak : 0;
+
+  const data = useMemo(() => {
+    const bookmarks = (profile.bookmarks ?? []).map((slug) => getStory(slug)).filter(Boolean);
+
+    const entries = Object.entries(profile.progress ?? {})
+      .map(([slug, p]) => {
+        const story = getStory(slug);
+        if (!story) return null;
+        const completed = p.completed ?? [];
+        const total = story.chapters.length;
+        const nextRow = story.chapters.find((c) => !completed.includes(c.chapter_number));
+        return {
+          slug,
+          story,
+          lastChapter: p.lastChapter,
+          completedCount: completed.length,
+          total,
+          percent: total ? Math.round((completed.length / total) * 100) : 0,
+          done: total > 0 && completed.length >= total,
+          nextChapter: (nextRow ?? story.chapters[0]).chapter_number,
+          updatedAt: p.updatedAt ?? "",
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+
+    return {
+      bookmarks,
+      entries,
+      inProgress: entries.filter((e) => !e.done),
+      finished: entries.filter((e) => e.done).length,
+      chaptersRead: entries.reduce((t, e) => t + e.completedCount, 0),
+      premiumOpened: Object.values(profile.unlocked ?? {}).reduce((t, list) => t + list.length, 0),
+    };
+  }, [profile]);
+
+  const byRegion = (origin) => !region || origin === region;
+  const bookmarks = data.bookmarks.filter((s) => byRegion(s.origin));
+  const inProgress = data.inProgress.filter((e) => byRegion(e.story.origin));
+  const history = data.entries.filter((e) => byRegion(e.story.origin));
+  const resume = data.inProgress[0];
+
+  function handleCheckIn() {
+    setError("");
+    try {
+      const result = dailyCheckIn(user.id);
+      refreshProfile();
+      setNotice(
+        result.rewarded
+          ? `Check-in berhasil! +${result.reward} Koin · streak ${result.streak} hari 🔥`
+          : "Kamu sudah check-in hari ini."
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  function handleBookmark(slug) {
+    toggleBookmark(user.id, slug);
+    refreshProfile();
+  }
+
+  const stats = [
+    { label: "Hikayat Selesai", value: data.finished, hint: "Semua bab sudah ditamatkan" },
+    { label: "Bab Selesai", value: data.chaptersRead, hint: "Total bab yang kamu selesaikan" },
+    { label: "Saldo Koin", value: profile.points, hint: "+ Top-Up Koin", to: "/topup" },
+    { label: "Bab Premium Terbuka", value: data.premiumOpened, hint: "Akses permanen" },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#FCFAF6] font-sans text-gray-800 pb-20">
-      {/* NAVBAR */}
-      <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-50">
-        <div className="flex items-center gap-8">
-          <Link to="/" className="flex items-center gap-2">
-            <img src="/kisara-logo.png" alt="KiSara" className="w-8 h-8 bg-gray-200 rounded-full" />
-            <div>
-              <h1 className="text-xl font-serif font-bold text-[#A34321] leading-none">KiSara.id</h1>
-              <p className="text-[9px] font-bold tracking-widest text-gray-500 uppercase">Cerita Nusantara</p>
-            </div>
+    <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
+      {/* Header */}
+      <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <span className="mb-3 inline-block rounded bg-sand px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-kisara">
+            Ruang Baca Pribadi · {ROLE_LABEL[profile.role] ?? "Pembaca"}
+          </span>
+          <h1 className="font-serif text-3xl font-bold text-gray-900">Selamat datang kembali, {profile.name}!</h1>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            to="/topup"
+            className="rounded-lg border border-kisara bg-sand px-4 py-2.5 text-sm font-bold text-kisara hover:bg-white"
+          >
+            🪙 {profile.points} Koin +
           </Link>
-          <div className="hidden md:flex items-center bg-[#F4F1EA] px-4 py-2 rounded-full w-80">
-            <span className="text-gray-400 mr-2">🔍</span>
-            <input type="text" placeholder="Cari hikayat, legenda..." className="bg-transparent border-none outline-none text-sm w-full" />
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="hidden lg:flex items-center bg-[#F4F1EA] px-4 py-1.5 rounded-full text-sm font-semibold text-[#A34321]">
-            <span className="text-yellow-500 mr-1">🪙</span> +350 KOIN
-          </div>
-          <button className="text-gray-500 hover:text-gray-700">🔔</button>
-          <button className="bg-[#A34321] text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-[#8A3619]">Mulai Baca Gratis</button>
-          <div className="flex items-center gap-2 border-l border-gray-300 pl-4">
-            <div className="w-8 h-8 bg-gray-300 rounded-full overflow-hidden">
-               {/* Placeholder foto profil */}
-              <div className="w-full h-full bg-gray-400"></div>
-            </div>
-            <div className="hidden lg:block text-xs">
-              <p className="font-bold text-gray-800">Raden Ayu...</p>
-              <p className="text-gray-500">PEMBACA</p>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* KONTEN UTAMA */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        
-        {/* HEADER PROFIL & SEDANG DIBACA */}
-        <div className="flex flex-col lg:flex-row gap-8 mb-8">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <span className="bg-[#F4F1EA] text-[#A34321] text-xs font-bold px-2 py-1 rounded">RUANG BACA PRIBADI</span>
-              <span className="text-xs text-gray-500 font-medium">🗺️ Penjelajah Hikayat Tk. 3</span>
-            </div>
-            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-1">Selamat datang kembali, Raden Ayu Siti!</h2>
-            <p className="text-sm text-gray-500 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span> Sesi baca aktif • Terakhir dibaca 2 jam yang lalu
-            </p>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-lg shadow-sm">
-              <span className="text-orange-500 text-lg">🔥</span>
-              <div>
-                <p className="text-xs font-bold text-gray-800">5 Hari Beruntun</p>
-                <p className="text-[10px] text-gray-500">Target harian 20 mnt</p>
-              </div>
-            </div>
-            <button className="bg-[#F4F1EA] text-[#A34321] border border-[#A34321] px-4 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2">
-               🪙 350 Koin ➕
-            </button>
-            <button className="bg-[#A34321] text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-[#8A3619]">
+          {profile.role === "creator" && (
+            <Link to="/creator" className="rounded-lg bg-kisara px-4 py-2.5 text-sm font-bold text-white hover:bg-kisara-dark">
               ✍️ Tulis Cerita
-            </button>
-          </div>
+            </Link>
+          )}
         </div>
+      </header>
 
-        {/* KARTU "SEDANG DIBACA" (Hero Card) */}
-        <div className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col md:flex-row gap-6 items-center shadow-sm mb-8">
-          <div className="w-full md:w-32 h-32 bg-gray-300 rounded-lg overflow-hidden flex-shrink-0 relative">
-             <div className="absolute inset-0 bg-blue-900/20"></div>
-             <span className="absolute bottom-2 left-2 text-[10px] text-white font-bold bg-black/50 px-2 py-0.5 rounded">Sumatera</span>
-          </div>
-          <div className="flex-1 w-full">
-            <div className="flex items-center gap-3 mb-2 text-xs font-bold">
-              <span className="text-red-500 uppercase tracking-wider">Sedang Dibaca</span>
-              <span className="text-gray-400">🕒 14 Menit tersisa</span>
-              <span className="text-gray-400">• Disimpan di Bab 4: Rahasia Sang Putri</span>
-            </div>
-            <h3 className="text-xl font-serif font-bold mb-1">Legenda Danau Toba & Putri Ikan Mas</h3>
-            <p className="text-sm text-gray-500 mb-4 line-clamp-1">Kutukan janji terlarang di tanah Batak dan kelahiran samudra air tawar raksasa yang mengubah takdir...</p>
-            
-            <div className="flex items-center gap-4">
-              <div className="flex-1 bg-gray-200 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-[#A34321] w-[68%] h-full"></div>
+      {/* Lanjutkan membaca + check-in */}
+      <div className="mb-8 grid gap-6 lg:grid-cols-[1fr_300px]">
+        <section aria-label="Lanjutkan membaca" className="rounded-xl border border-line bg-white p-4 shadow-sm">
+          {resume ? (
+            <div className="flex flex-col items-stretch gap-5 sm:flex-row sm:items-center">
+              <CoverArt story={resume.story} className="h-32 w-full shrink-0 rounded-lg sm:w-32" />
+              <div className="min-w-0 flex-1">
+                <p className="mb-1 text-xs font-bold uppercase tracking-wider text-kisara">Sedang Dibaca</p>
+                <h2 className="mb-1 font-serif text-xl font-bold text-gray-900">
+                  <Link to={`/story/${resume.slug}`} className="hover:text-kisara">
+                    {resume.story.title}
+                  </Link>
+                </h2>
+                <p className="mb-3 text-sm text-gray-500">
+                  {resume.story.origin} · terakhir di Bab {resume.lastChapter}
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-200">
+                    <div className="h-full bg-kisara" style={{ width: `${resume.percent}%` }} />
+                  </div>
+                  <span className="text-xs font-bold text-gray-600">
+                    {resume.completedCount}/{resume.total} bab ({resume.percent}%)
+                  </span>
+                </div>
               </div>
-              <span className="text-xs font-bold text-gray-600">68% (Bab 4 / 6)</span>
+              <Link
+                to={`/story/${resume.slug}/read/${resume.nextChapter}`}
+                className="whitespace-nowrap rounded-lg bg-kisara px-5 py-3 text-center text-sm font-bold text-white hover:bg-kisara-dark"
+              >
+                Lanjutkan Bab {resume.nextChapter} →
+              </Link>
             </div>
-          </div>
-          <div className="flex gap-2">
-            <button className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50">🔖</button>
-            <button className="bg-[#A34321] text-white px-6 py-3 rounded-lg text-sm font-bold hover:bg-[#8A3619] whitespace-nowrap">
-              Lanjutkan Bab 4 →
-            </button>
-          </div>
-        </div>
+          ) : (
+            <div className="px-2 py-6 text-center">
+              <p className="mb-4 text-gray-600">Kamu belum punya bacaan yang sedang berjalan.</p>
+              <Link to="/catalog" className="rounded-lg bg-kisara px-5 py-2.5 text-sm font-bold text-white hover:bg-kisara-dark">
+                Jelajahi Kisah
+              </Link>
+            </div>
+          )}
+        </section>
 
-        {/* STATISTIK 4 KOLOM */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm flex justify-between items-start">
-            <div>
-              <p className="text-xs font-bold text-gray-500 uppercase mb-1">Hikayat Selesai</p>
-              <h4 className="text-3xl font-serif font-bold text-gray-900">18</h4>
-              <p className="text-xs text-green-600 font-medium mt-1">📈 +3 bulan ini</p>
-            </div>
-            <span className="text-[#A34321] bg-[#F4F1EA] p-2 rounded-lg">📖</span>
-          </div>
-          <div className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm flex justify-between items-start">
-            <div>
-              <p className="text-xs font-bold text-gray-500 uppercase mb-1">Saldo Koin Kirana</p>
-              <h4 className="text-3xl font-serif font-bold text-[#A34321]">350 <span className="text-sm font-sans text-gray-500">Koin</span></h4>
-              <p className="text-xs text-gray-500 mt-1">+ Beli Poin Sandbox</p>
-            </div>
-            <span className="text-yellow-600 bg-yellow-50 p-2 rounded-lg">🪙</span>
-          </div>
-          <div className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm flex justify-between items-start">
-            <div>
-              <p className="text-xs font-bold text-gray-500 uppercase mb-1">Bab Premium Terbuka</p>
-              <h4 className="text-3xl font-serif font-bold text-gray-900">7</h4>
-              <p className="text-xs text-gray-500 mt-1">Akses permanen lontar</p>
-            </div>
-            <span className="text-blue-600 bg-blue-50 p-2 rounded-lg">🔓</span>
-          </div>
-          <div className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm flex justify-between items-start">
-            <div>
-              <p className="text-xs font-bold text-gray-500 uppercase mb-1">Lencana Adat</p>
-              <h4 className="text-3xl font-serif font-bold text-gray-900">4 / 12</h4>
-              <p className="text-xs text-gray-500 mt-1">Tingkat Penjaga Budaya</p>
-            </div>
-            <span className="text-orange-600 bg-orange-50 p-2 rounded-lg">🎖️</span>
-          </div>
-        </div>
-
-        {/* LENCANA */}
-        <div className="bg-[#F4F1EA] rounded-xl p-5 mb-10 flex flex-col md:flex-row items-center justify-between border border-[#E8E3D5]">
-          <div className="flex items-start gap-4 mb-4 md:mb-0">
-            <div className="bg-white p-2 rounded-lg shadow-sm text-2xl border border-gray-200">🎖️</div>
-            <div>
-              <h4 className="font-bold text-gray-900">Koleksi Lencana Adat Nusantara Anda</h4>
-              <p className="text-xs text-gray-600">Selesaikan cerita rakyat dari tiap kepulauan untuk menyematkan gelar kehormatan.</p>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2 text-xs font-bold">
-            <span className="bg-white border border-[#A34321] text-[#A34321] px-3 py-1.5 rounded-full flex items-center gap-1">🔴 Sahabat Toba</span>
-            <span className="bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-full flex items-center gap-1">🟢 Penjaga Bromo</span>
-            <span className="bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-full flex items-center gap-1">🔵 Candi Prambanan</span>
-            <span className="bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded-full flex items-center gap-1">🟤 Mahkota Sriwijaya</span>
-          </div>
-        </div>
-
-        {/* TABS & BUKU FAVORIT */}
-        <div className="flex justify-between items-center border-b border-gray-200 mb-6">
-          <div className="flex gap-6 overflow-x-auto text-sm font-bold">
-            <button className="text-[#A34321] border-b-2 border-[#A34321] pb-3 bg-[#A34321] text-white rounded-t-lg px-4">Bookmark Saya (6)</button>
-            <button className="text-gray-500 pb-3 hover:text-gray-800">Sedang Dibaca (2)</button>
-            <button className="text-gray-500 pb-3 hover:text-gray-800">Riwayat Bacaan</button>
-            <button className="text-gray-500 pb-3 hover:text-gray-800">Misi Harian & Hadiah</button>
-          </div>
-          <select className="hidden md:block bg-transparent text-sm font-bold text-gray-600 outline-none pb-3">
-            <option>Semua Daerah</option>
-            <option>Jawa</option>
-            <option>Sumatera</option>
-          </select>
-        </div>
-
-        {/* GRID BUKU BOOKMARK */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          {/* Card 1 */}
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="h-40 bg-gray-300 relative">
-              <span className="absolute top-3 left-3 text-[10px] font-bold bg-white text-gray-800 px-2 py-1 rounded">⚫ Jawa Tengah</span>
-              <span className="absolute top-3 right-3 text-[10px] font-bold bg-white/80 px-2 py-1 rounded">Gratis</span>
-            </div>
-            <div className="p-5">
-              <div className="flex text-xs font-bold text-gray-500 mb-2 gap-2">
-                <span className="text-orange-500">⭐ 4.9 (1.2k)</span>
-                <span>• 5 Bab Lengkap</span>
-              </div>
-              <h3 className="font-serif font-bold text-lg mb-2 leading-tight">Kisah Seribu Candi Roro Jonggrang</h3>
-              <p className="text-xs text-gray-500 line-clamp-2 mb-4">Ambisi Bandung Bondowoso menaklukkan seribu arca dan kecerdikan sang putri yang berujung keabadian...</p>
-              <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-                <span className="text-[10px] text-gray-400">Tersimpan 3 hari lalu</span>
-                <button className="text-sm font-bold text-[#A34321]">Mulai Baca</button>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2 */}
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="h-40 bg-gray-300 relative">
-              <span className="absolute top-3 left-3 text-[10px] font-bold bg-white text-gray-800 px-2 py-1 rounded">🟡 Bali Dewata</span>
-              <span className="absolute top-3 right-3 text-[10px] font-bold bg-[#A34321] text-white px-2 py-1 rounded">🪙 50 Koin</span>
-            </div>
-            <div className="p-5">
-              <div className="flex text-xs font-bold text-gray-500 mb-2 gap-2">
-                <span className="text-orange-500">⭐ 5.0 (890)</span>
-                <span>• 5 Bab Premium</span>
-              </div>
-              <h3 className="font-serif font-bold text-lg mb-2 leading-tight">Barong & Rangda: Harmoni Kebaikan Semesta</h3>
-              <p className="text-xs text-gray-500 line-clamp-2 mb-4">Kosmologi Calonarang dan pertempuran magis abadi menjaga keseimbangan dharma dan adharma di pulau...</p>
-              <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-                <span className="text-[10px] text-green-600 font-bold bg-green-50 px-2 py-1 rounded">Bab 1 Terbuka</span>
-                <button className="text-sm font-bold text-[#A34321]">Buka Bab 2</button>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="h-40 bg-gray-300 relative">
-              <span className="absolute top-3 left-3 text-[10px] font-bold bg-white text-gray-800 px-2 py-1 rounded">🟢 Kalimantan</span>
-              <span className="absolute top-3 right-3 text-[10px] font-bold bg-white/80 px-2 py-1 rounded">Gratis</span>
-            </div>
-            <div className="p-5">
-              <div className="flex text-xs font-bold text-gray-500 mb-2 gap-2">
-                <span className="text-orange-500">⭐ 4.8 (640)</span>
-                <span>• 4 Bab Lengkap</span>
-              </div>
-              <h3 className="font-serif font-bold text-lg mb-2 leading-tight">Hikayat Burung Enggang & Pohon Hayat</h3>
-              <p className="text-xs text-gray-500 line-clamp-2 mb-4">Legenda sakral suku Dayak Kenyah tentang kesetiaan pelindung hutan rimba Mahakam dan pohon...</p>
-              <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-                <span className="text-[10px] text-gray-400">Tersimpan minggu lalu</span>
-                <button className="text-sm font-bold text-[#A34321]">Mulai Baca</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white border border-[#E8E3D5] rounded-xl p-3 text-center mb-16">
-          <p className="text-sm text-[#A34321] font-medium flex items-center justify-center gap-2">
-            🔖 Masih ada 3 cerita lain dalam arsip simpanan Anda. <button className="font-bold underline ml-2">Tampilkan Semua Bookmark Arsip →</button>
+        <section aria-label="Check-in harian" className="rounded-xl border border-line bg-white p-5 shadow-sm">
+          <p className="mb-1 text-xs font-bold uppercase tracking-wider text-gray-500">Check-in Harian</p>
+          <p className="mb-4 font-serif text-3xl font-bold text-gray-900">
+            🔥 {streak} <span className="font-sans text-sm font-normal text-gray-500">hari beruntun</span>
           </p>
+          <button
+            type="button"
+            onClick={handleCheckIn}
+            disabled={checkedIn}
+            className="w-full rounded-lg bg-kisara px-4 py-3 text-sm font-bold text-white hover:bg-kisara-dark disabled:cursor-not-allowed disabled:bg-gray-300"
+          >
+            {checkedIn ? "✓ Sudah check-in hari ini" : `Check-in (+${DAILY_CHECKIN_REWARD} Koin)`}
+          </button>
+          {notice && (
+            <p role="status" className="mt-3 text-sm font-semibold text-green-700">
+              {notice}
+            </p>
+          )}
+          {error && (
+            <p role="alert" className="mt-3 text-sm text-red-700">
+              {error}
+            </p>
+          )}
+        </section>
+      </div>
+
+      {/* Statistik */}
+      <div className="mb-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {stats.map((s) => {
+          const body = (
+            <>
+              <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-gray-500">{s.label}</p>
+              <p className="font-serif text-3xl font-bold text-gray-900">{s.value}</p>
+              <p className="mt-1 text-xs text-gray-500">{s.hint}</p>
+            </>
+          );
+          const cls = "rounded-xl border border-line bg-white p-5 shadow-sm";
+          return s.to ? (
+            <Link key={s.label} to={s.to} className={`${cls} hover:border-kisara`}>
+              {body}
+            </Link>
+          ) : (
+            <div key={s.label} className={cls}>
+              {body}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Tab */}
+      <div className="mb-6 flex items-center justify-between gap-4 border-b border-line">
+        <div role="tablist" aria-label="Pustaka saya" className="flex gap-1 overflow-x-auto">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              role="tab"
+              aria-selected={tab === t.id}
+              onClick={() => setTab(t.id)}
+              className={`whitespace-nowrap rounded-t-lg px-4 py-3 text-sm font-bold ${
+                tab === t.id ? "bg-kisara text-white" : "text-gray-500 hover:text-gray-900"
+              }`}
+            >
+              {t.label}
+              {t.id === "bookmark" && ` (${data.bookmarks.length})`}
+              {t.id === "reading" && ` (${data.inProgress.length})`}
+            </button>
+          ))}
         </div>
 
-      </main>
+        {tab !== "points" && (
+          <select
+            aria-label="Filter daerah"
+            value={region}
+            onChange={(e) => setRegion(e.target.value)}
+            className="hidden h-9 shrink-0 rounded-md border border-line bg-white px-3 text-sm font-semibold text-gray-700 md:block"
+          >
+            <option value="">Semua Daerah</option>
+            {regions.map((r) => (
+              <option key={r} value={r}>
+                {r}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+
+      {tab === "bookmark" &&
+        (bookmarks.length === 0 ? (
+          <Empty
+            text={
+              data.bookmarks.length === 0
+                ? "Belum ada cerita yang disimpan. Tekan ikon bookmark di katalog untuk menyimpannya."
+                : "Tidak ada bookmark dari daerah ini."
+            }
+            to="/catalog"
+            cta="Jelajahi Katalog"
+          />
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {bookmarks.map((story) => (
+              <StoryCard key={story.slug} story={story} bookmarked onToggleBookmark={handleBookmark} />
+            ))}
+          </div>
+        ))}
+
+      {tab === "reading" &&
+        (inProgress.length === 0 ? (
+          <Empty text="Tidak ada cerita yang sedang dibaca." to="/catalog" cta="Mulai Membaca" />
+        ) : (
+          <ul className="space-y-3">
+            {inProgress.map((e) => (
+              <li key={e.slug} className="flex flex-wrap items-center gap-4 rounded-xl border border-line bg-white p-4 shadow-sm">
+                <CoverArt story={e.story} className="h-16 w-16 shrink-0 rounded-lg" />
+                <div className="min-w-0 flex-1">
+                  <Link to={`/story/${e.slug}`} className="font-serif font-bold text-gray-900 hover:text-kisara">
+                    {e.story.title}
+                  </Link>
+                  <p className="mb-2 text-xs text-gray-500">
+                    {e.story.origin} · {e.completedCount}/{e.total} bab selesai
+                  </p>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-gray-200">
+                    <div className="h-full bg-kisara" style={{ width: `${e.percent}%` }} />
+                  </div>
+                </div>
+                <Link
+                  to={`/story/${e.slug}/read/${e.nextChapter}`}
+                  className="rounded-lg bg-kisara px-4 py-2 text-xs font-bold text-white hover:bg-kisara-dark"
+                >
+                  Lanjutkan Bab {e.nextChapter}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ))}
+
+      {tab === "history" &&
+        (history.length === 0 ? (
+          <Empty text="Riwayat bacaan masih kosong." to="/catalog" cta="Mulai Membaca" />
+        ) : (
+          <ul className="divide-y divide-line rounded-xl border border-line bg-white shadow-sm">
+            {history.map((e) => (
+              <li key={e.slug} className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
+                <div className="min-w-0">
+                  <Link to={`/story/${e.slug}`} className="font-serif font-bold text-gray-900 hover:text-kisara">
+                    {e.story.title}
+                  </Link>
+                  <p className="text-xs text-gray-500">
+                    Bab terakhir: {e.lastChapter ?? "-"} · {e.percent}% selesai
+                    {e.updatedAt && ` · ${formatDate(e.updatedAt)}`}
+                  </p>
+                </div>
+                <Link
+                  to={`/story/${e.slug}/read/${e.lastChapter ?? 1}`}
+                  className="text-sm font-bold text-kisara hover:underline"
+                >
+                  {e.done ? "Baca Ulang" : "Lanjutkan"} →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ))}
+
+      {tab === "points" &&
+        ((profile.transactions ?? []).length === 0 ? (
+          <Empty text="Belum ada transaksi poin." />
+        ) : (
+          <ul className="divide-y divide-line rounded-xl border border-line bg-white shadow-sm">
+            {profile.transactions.map((t) => (
+              <li key={t.id} className="flex items-center justify-between gap-4 px-5 py-4">
+                <div className="min-w-0">
+                  <p className="font-semibold text-gray-900">{TX_LABEL[t.type] ?? t.type}</p>
+                  <p className="truncate text-xs text-gray-500">
+                    {txNote(t.note)} · {formatDate(t.createdAt)}
+                  </p>
+                </div>
+                <span className={`shrink-0 font-bold ${t.amount >= 0 ? "text-green-700" : "text-red-700"}`}>
+                  {t.amount >= 0 ? "+" : ""}
+                  {t.amount} Koin
+                </span>
+              </li>
+            ))}
+          </ul>
+        ))}
     </div>
   );
 }
