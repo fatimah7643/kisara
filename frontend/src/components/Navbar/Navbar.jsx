@@ -146,6 +146,13 @@ export default function Navbar() {
                     <Link role="menuitem" to="/dashboard" className="block rounded px-3 py-2 text-sm hover:bg-sand">
                       Pustaka Saya
                     </Link>
+
+                    {profile?.role === "creator" && (
+                      <Link role="menuitem" to="/creator" className="block rounded px-3 py-2 text-sm hover:bg-sand">
+                        Ruang Kreator
+                      </Link>
+                    )}
+                    
                     <button
                       type="button"
                       role="menuitem"
