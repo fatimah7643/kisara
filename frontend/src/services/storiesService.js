@@ -1,6 +1,7 @@
 // Lapisan data cerita. Sekarang membaca dari stories.json (data tiruan).
 // Nanti, isi fungsi-fungsi ini diganti fetch() ke backend — halaman tidak perlu diubah.
 import stories from "../data/stories.json";
+import { getCatalogMeta } from "./catalogApi";
 
 const WORDS_PER_MINUTE = 200;
 const PAGE_SIZE = 9;
@@ -38,34 +39,11 @@ const searchIndex = new Map(
   stories.map((s) => [s.slug, normalize(`${s.title} ${s.origin} ${s.category} ${s.synopsis}`)])
 );
 
-export function getRegions() {
-  return [...new Set(stories.map((s) => s.origin))]
-    .filter((origin) => origin !== "Nusantara")
-    .sort((a, b) => a.localeCompare(b, "id"));
-}
-
-// Daerah dengan cerita terbanyak: [{ name, count }]
-export function getTopRegions(limit = 5) {
-  const counts = new Map();
-  for (const s of summaries) {
-    if (s.origin === "Nusantara") continue;
-    counts.set(s.origin, (counts.get(s.origin) || 0) + 1);
-  }
-  return [...counts.entries()]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "id"))
-    .slice(0, limit);
-}
-
-export function getCategories() {
-  return [...new Set(stories.map((s) => s.category))].sort((a, b) => a.localeCompare(b, "id"));
-}
-
-export function getStats() {
-  const chapters = summaries.reduce((total, s) => total + s.chapterCount, 0);
-  const freeChapters = summaries.reduce((total, s) => total + s.freeCount, 0);
-  return { stories: summaries.length, chapters, freeChapters, regions: getRegions().length };
-}
+// Daerah, kategori, dan statistik kini dari database (dimuat di main.jsx).
+export const getRegions = () => getCatalogMeta().regions;
+export const getTopRegions = (limit = 5) => getCatalogMeta().topRegions.slice(0, limit);
+export const getCategories = () => getCatalogMeta().categories;
+export const getStats = () => getCatalogMeta().stats;
 
 const SORTERS = {
   chapters: (a, b) => b.chapterCount - a.chapterCount || a.title.localeCompare(b.title, "id"),

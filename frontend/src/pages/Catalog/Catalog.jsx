@@ -1,13 +1,16 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { getCategories, getRegions, getStats, getStories } from "../../services/storiesService";
+import { getCategories, getRegions, getStats } from "../../services/storiesService";
+import { fetchStories } from "../../services/catalogApi";
+import { useAsync } from "../../hooks/useAsync";
 import { toggleBookmark } from "../../services/userService";
 import StoryCard from "../../components/StoryCard/StoryCard";
 
 const regions = getRegions();
 const categories = getCategories();
 const stats = getStats();
+const EMPTY_RESULT = { items: [], total: 0, baseTotal: 0, page: 1, pageCount: 1, categoryCounts: {} };
 
 const SORT_OPTIONS = [
   { value: "chapters", label: "Paling lengkap (bab terbanyak)" },
@@ -67,10 +70,12 @@ export default function Catalog() {
   const sort = params.get("sort") ?? "chapters";
   const page = Number(params.get("page")) || 1;
 
-  const data = useMemo(
-    () => getStories({ q, region, category, sort, page }),
-    [q, region, category, sort, page]
+  const { data: result, error } = useAsync(
+    () => fetchStories({ q, region, category, sort, page }),
+    [q, region, category, sort, page],
+    { keepPrevious: true }
   );
+  const data = result ?? EMPTY_RESULT;
 
   // Mengubah filter selalu kembali ke halaman 1, kecuali yang diubah memang halaman.
   function setParam(updates) {
@@ -185,7 +190,15 @@ export default function Catalog() {
         </label>
       </div>
 
-      {data.total === 0 ? (
+      {error ? (
+        <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-6 py-16 text-center text-red-700">
+          {error.message}
+        </p>
+      ) : !result ? (
+        <p role="status" className="rounded-xl border border-line bg-white px-6 py-16 text-center text-gray-600">
+          Memuat cerita…
+        </p>
+      ) : data.total === 0 ? (
         <div className="rounded-xl border border-dashed border-line bg-white px-6 py-16 text-center">
           <p className="mb-2 font-serif text-2xl text-gray-900">Belum ada hikayat yang cocok</p>
           <p className="mb-6 text-sm text-gray-500">Coba kata kunci lain atau hapus filter yang sedang aktif.</p>

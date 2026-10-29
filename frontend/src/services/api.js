@@ -1,40 +1,45 @@
+import { supabase } from "./supabase";
+
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-export async function fetchStories(search = "", region = "") {
-  try {
-    const params = new URLSearchParams();
-    if (search) params.append("search", search);
-    if (region) params.append("region", region);
-
-    const res = await fetch(`${API_BASE}/stories?${params.toString()}`);
-    if (!res.ok) throw new Error("Gagal mengambil data dari server");
-    const json = await res.json();
-    return json.data || [];
-  } catch (err) {
-    console.error("[fetchStories]", err);
-    return [];
+export class ApiError extends Error {
+  constructor(message, status = 0, data = null) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+    this.data = data;
   }
 }
 
-export async function fetchRegions() {
-  try {
-    const res = await fetch(`${API_BASE}/regions`);
-    if (!res.ok) throw new Error("Gagal mengambil data wilayah");
-    const json = await res.json();
-    return json.data || [];
-  } catch (err) {
-    console.error("[fetchRegions]", err);
-    return [];
-  }
+async function authHeaders() {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-export async function fetchStoryBySlug(slug) {
+async function request(path, { method = "GET", body } = {}) {
+  const headers = { ...(await authHeaders()) };
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+
+  let res;
   try {
-    const res = await fetch(`${API_BASE}/stories/${encodeURIComponent(slug)}`);
-    if (!res.ok) throw new Error("Cerita tidak ditemukan");
-    return await res.json();
-  } catch (err) {
-    console.error("[fetchStoryBySlug]", err);
-    return null;
+    res = await fetch(`${API_BASE}${path}`, {
+      method,
+      headers,
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+    });
+  } catch {
+    throw new ApiError("Tidak bisa terhubung ke server. Pastikan backend berjalan (npm run dev di folder backend).");
   }
+
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new ApiError(data?.error || "Terjadi kesalahan pada server.", res.status, data);
+  return data;
 }
+
+export const api = {
+  get: (path) => request(path),
+  post: (path, body) => request(path, { method: "POST", body: body ?? {} }),
+  put: (path, body) => request(path, { method: "PUT", body }),
+  delete: (path) => request(path, { method: "DELETE" }),
+};

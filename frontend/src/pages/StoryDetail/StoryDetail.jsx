@@ -1,7 +1,7 @@
-import { useMemo } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { getRelated, getStory } from "../../services/storiesService";
+import { fetchStory } from "../../services/catalogApi";
+import { useAsync } from "../../hooks/useAsync";
 import { toggleBookmark } from "../../services/userService";
 import CoverArt from "../../components/CoverArt/CoverArt";
 import BookmarkIcon from "../../components/BookmarkIcon";
@@ -18,20 +18,30 @@ export default function StoryDetail() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const story = useMemo(() => getStory(slug), [slug]);
-  const related = useMemo(() => getRelated(slug, 3), [slug]);
+  const { data: story, error, loading } = useAsync(() => fetchStory(slug), [slug]);
+
+  if (loading && !story) {
+    return <div className="mx-auto max-w-2xl px-4 py-24 text-center text-gray-500">Memuat cerita…</div>;
+  }
 
   if (!story) {
+    const notFound = error?.status === 404;
     return (
       <div className="mx-auto max-w-2xl px-4 py-24 text-center">
-        <h1 className="mb-3 font-serif text-3xl font-bold text-gray-900">Cerita tidak ditemukan</h1>
-        <p className="mb-8 text-gray-600">Cerita yang kamu cari tidak ada atau sudah dipindahkan.</p>
+        <h1 className="mb-3 font-serif text-3xl font-bold text-gray-900">
+          {notFound ? "Cerita tidak ditemukan" : "Gagal memuat cerita"}
+        </h1>
+        <p className="mb-8 text-gray-600">
+          {notFound ? "Cerita yang kamu cari tidak ada atau sudah dipindahkan." : error?.message}
+        </p>
         <Link to="/catalog" className="rounded-lg bg-kisara px-6 py-3 text-sm font-bold text-white hover:bg-kisara-dark">
           Kembali ke Katalog
         </Link>
       </div>
     );
   }
+
+  const related = story.related;
 
   const unlocked = new Set(profile?.unlocked?.[slug] ?? []);
   const completed = new Set(profile?.progress?.[slug]?.completed ?? []);

@@ -1,13 +1,14 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { getStats, getStories, getTopRegions } from "../../services/storiesService";
+import { getStats, getTopRegions } from "../../services/storiesService";
+import { fetchStories } from "../../services/catalogApi";
+import { useAsync } from "../../hooks/useAsync";
 import CoverArt from "../../components/CoverArt/CoverArt";
 import StoryCard from "../../components/StoryCard/StoryCard";
 
 const stats = getStats();
 const topRegions = getTopRegions(5);
-const featured = getStories({ sort: "chapters", pageSize: 1 }).items[0];
 
 const FEATURES = [
   {
@@ -35,7 +36,20 @@ const FEATURES = [
 export default function Home() {
   const { user } = useAuth();
   const [region, setRegion] = useState("");
-  const cards = useMemo(() => getStories({ region, sort: "chapters", pageSize: 4 }).items, [region]);
+
+  const { data: featuredData } = useAsync(
+    () => fetchStories({ sort: "chapters", pageSize: 1 }),
+    []
+  );
+
+  const { data: cardsData } = useAsync(
+    () => fetchStories({ region, sort: "chapters", pageSize: 4 }),
+    [region],
+    { keepPrevious: true }
+  );
+
+  const featured = featuredData?.items[0];
+  const cards = cardsData?.items ?? [];
 
   return (
     <div>
@@ -68,11 +82,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative w-full lg:w-1/2">
-          <div className="relative z-10 rounded-2xl border border-gray-100 bg-white p-4 shadow-xl">
-            <CoverArt story={featured} className="mb-6 h-64 rounded-xl" />
-            <div className="mb-3 flex items-center gap-2">
-              <span className="rounded bg-sand px-2 py-1 text-xs font-bold text-kisara">PILIHAN</span>
+        {featured && (
+          <div className="relative w-full lg:w-1/2">
+            <div className="relative z-10 rounded-2xl border border-gray-100 bg-white p-4 shadow-xl">
+              <CoverArt story={featured} className="mb-6 h-64 rounded-xl" />
+              <div className="mb-3 flex items-center gap-2">
+                <span className="rounded bg-sand px-2 py-1 text-xs font-bold text-kisara">PILIHAN</span>
               <span className="text-xs font-medium text-gray-500">{featured.origin}</span>
             </div>
             <h3 className="mb-2 font-serif text-2xl font-bold">{featured.title}</h3>
@@ -86,6 +101,7 @@ export default function Home() {
           </div>
           <div className="absolute -right-6 -top-6 -z-10 h-full w-full rounded-2xl border border-line bg-sand" />
         </div>
+        )}
       </section>
 
       {/* STATISTIK (dihitung dari data) */}
